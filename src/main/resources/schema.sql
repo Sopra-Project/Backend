@@ -61,6 +61,6 @@ SELECT 'UNPARKED'
 WHERE NOT EXISTS(SELECT 1 FROM ParkingStatus WHERE name = 'UNPARKED');
 
 -- Inserting test Admin if not exists
-INSERT INTO Users (name, email, roleID, totalParkingSpots, totalParkingSpotsAvailable)
-SELECT 'Admin', 'test@test.test', (SELECT id FROM Roles WHERE name = 'ADMIN'), 10, 10
-WHERE NOT EXISTS(SELECT 1 FROM Users WHERE email = 'test@test.test');
+-- INSERT INTO Users (name, email, roleID, totalParkingSpots, totalParkingSpotsAvailable)
+-- SELECT 'Admin', 'test@test.test', (SELECT id FROM Roles WHERE name = 'ADMIN'), 10, 10
+-- WHERE NOT EXISTS(SELECT 1 FROM Users WHERE email = 'test@test.test');
