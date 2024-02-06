@@ -18,7 +18,7 @@ public class ParkingSpot {
     @GeneratedValue
     private int id;
     @Column(name = "regnumber")
-    private int registrationNumber;
+    private String registrationNumber;
     @Column(name = "fromtime")
     private LocalDate startTime;
     @Column(name = "totime")

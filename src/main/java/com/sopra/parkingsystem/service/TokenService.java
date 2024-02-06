@@ -29,8 +29,6 @@ public class TokenService {
                 .issuer("self")
                 .subject(user.getName())
                 .claim("role", role)
-                .claim("totalparkingspots", user.getTotalparkingspots())
-                .claim("totalparkingspotsavailable", user.getTotalparkingspotsavailable())
                 .issuedAt(now)
                 .build();
         return jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
