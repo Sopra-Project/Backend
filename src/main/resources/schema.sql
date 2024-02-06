@@ -64,3 +64,46 @@ WHERE NOT EXISTS(SELECT 1 FROM ParkingStatus WHERE name = 'UNPARKED');
 INSERT INTO Users (name, email, roleID, totalParkingSpots, totalParkingSpotsAvailable)
 SELECT 'Admin', 'test@test.test', (SELECT id FROM Roles WHERE name = 'ADMIN'), 10, 10
 WHERE NOT EXISTS(SELECT 1 FROM Users WHERE email = 'test@test.test');
+
+-- Inserting test User if not exists
+INSERT INTO Users (name, email, roleID, totalParkingSpots, totalParkingSpotsAvailable)
+SELECT 'User', 'user@test.test', (SELECT id FROM Roles WHERE name = 'USER'), 1, 1
+WHERE NOT EXISTS(SELECT 1 FROM Users WHERE email = 'user@test.test');
+
+-- Inserting test Inspector if not exists
+INSERT INTO Users (name, email, roleID, totalParkingSpots, totalParkingSpotsAvailable)
+SELECT 'Inspector', 'inspector@test.test', (SELECT id FROM Roles WHERE name = 'INSPECTOR'), 1, 1
+WHERE NOT EXISTS(SELECT 1 FROM Users WHERE email = 'inspector@test.test');
+
+-- Inserting test Parking Spots if not exists
+INSERT INTO ParkingSpots (userID, regNumber, fromTime, toTime, parkingStatusId)
+SELECT (SELECT id FROM Users WHERE email = 'user@test.test'),
+       'ABC123',
+       '2021-01-01 00:00:00',
+       '2021-01-01 01:00:00',
+       (SELECT id FROM ParkingStatus WHERE name = 'PARKED')
+WHERE NOT EXISTS(SELECT 1 FROM ParkingSpots WHERE regNumber = 'ABC123');
+
+INSERT INTO ParkingSpots (userID, regNumber, fromTime, toTime, parkingStatusId)
+SELECT (SELECT id FROM Users WHERE email = 'user@test.test'),
+       'DEF456',
+       '2021-01-01 00:00:00',
+       '2021-01-01 01:00:00',
+       (SELECT id FROM ParkingStatus WHERE name = 'PARKED')
+WHERE NOT EXISTS(SELECT 1 FROM ParkingSpots WHERE regNumber = 'DEF456');
+
+INSERT INTO ParkingSpots (userID, regNumber, fromTime, toTime, parkingStatusId)
+SELECT (SELECT id FROM Users WHERE email = 'user@test.test'),
+       'GHI789',
+       '2021-01-01 00:00:00',
+       '2021-01-01 01:00:00',
+       (SELECT id FROM ParkingStatus WHERE name = 'PARKED')
+WHERE NOT EXISTS(SELECT 1 FROM ParkingSpots WHERE regNumber = 'GHI789');
+
+INSERT INTO ParkingSpots (userID, regNumber, fromTime, toTime, parkingStatusId)
+SELECT (SELECT id FROM Users WHERE email = 'user@test.test'),
+       'JKL012',
+       '2021-01-01 00:00:00',
+       '2021-01-01 01:00:00',
+       (SELECT id FROM ParkingStatus WHERE name = 'UNPARKED')
+WHERE NOT EXISTS(SELECT 1 FROM ParkingSpots WHERE regNumber = 'JKL012');
