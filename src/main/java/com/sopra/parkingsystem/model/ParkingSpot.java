@@ -7,7 +7,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
+@Entity
 @Data
 @Builder
 @NoArgsConstructor
@@ -20,9 +22,9 @@ public class ParkingSpot {
     @Column(name = "regnumber")
     private String registrationNumber;
     @Column(name = "fromtime")
-    private LocalDate startTime;
+    private LocalDateTime startTime;
     @Column(name = "totime")
-    private LocalDate endTime;
+    private LocalDateTime endTime;
     @ManyToOne
     @JoinColumn(name = "userid")
     private User user;
