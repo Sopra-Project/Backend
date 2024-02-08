@@ -39,9 +39,9 @@ public class SecurityConfig {
                                 .requestMatchers("/api/**").permitAll() // todo remove when ready
 //                        .anyRequest().authenticated() todo uncomment when ready
                 )
+                .cors(Customizer.withDefaults())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .build();
     }
 
