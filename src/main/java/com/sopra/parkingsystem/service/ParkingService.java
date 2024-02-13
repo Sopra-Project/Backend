@@ -24,4 +24,8 @@ public class ParkingService {
     public void unpark(int id) {
         parkingRepository.unpark(id);
     }
+
+    public ParkingSpot getById(long id) {
+        return parkingRepository.findById(id).orElse(null);
+    }
 }
