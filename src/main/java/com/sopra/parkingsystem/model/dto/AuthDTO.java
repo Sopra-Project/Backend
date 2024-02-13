@@ -1,4 +1,4 @@
-package com.sopra.parkingsystem.model;
+package com.sopra.parkingsystem.model.dto;
 
 import lombok.Data;
 
