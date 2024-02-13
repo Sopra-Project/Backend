@@ -18,4 +18,12 @@ public class UserCodeService {
         userCodeRepository.saveAndFlush(userCode);
     }
 
+    public UserCode getUserCodeByCode(String code) {
+        return userCodeRepository.findByCode(code);
+    }
+
+    public void delete(UserCode userCode) {
+        userCodeRepository.delete(userCode);
+    }
+
 }
