@@ -37,6 +37,15 @@ CREATE TABLE IF NOT EXISTS ParkingSpots
     FOREIGN KEY (parkingStatusId) REFERENCES ParkingStatus (id)
 );
 
+CREATE TABLE IF NOT EXISTS UserCode
+(
+    id        serial PRIMARY KEY,
+    userID    INT          NOT NULL,
+    FOREIGN KEY (userID) REFERENCES Users (id),
+    code      VARCHAR(100) NOT NULL,
+    expiresAt TIMESTAMP    NOT NULL
+);
+
 
 -- Inserting Roles if not exists
 INSERT INTO Roles (name)
