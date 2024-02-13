@@ -1,6 +1,6 @@
 package com.sopra.parkingsystem.controller;
 
-import com.sopra.parkingsystem.model.AuthDTO;
+import com.sopra.parkingsystem.model.dto.AuthDTO;
 import com.sopra.parkingsystem.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

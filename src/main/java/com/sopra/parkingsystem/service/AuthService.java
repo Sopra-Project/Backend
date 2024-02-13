@@ -11,16 +11,19 @@ public class AuthService {
 
     private final UserService userService;
     private final TokenService tokenService;
+    private final MailSenderService mailSenderService;
 
     @Autowired
-    public AuthService(UserService userService, TokenService tokenService) {
+    public AuthService(UserService userService, TokenService tokenService, MailSenderService mailSenderService) {
         this.userService = userService;
         this.tokenService = tokenService;
+        this.mailSenderService = mailSenderService;
     }
 
     public String login(String email) {
         User user = userService.getUserByEmail(email);
         if (user != null) {
+            mailSenderService.sendEmail(user);
             return tokenService.encodeToken(user);
         }
         return null;
