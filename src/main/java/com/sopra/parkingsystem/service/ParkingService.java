@@ -20,4 +20,8 @@ public class ParkingService {
     public List<ParkingSpot> getAllParkingSpots() {
         return parkingRepository.findAll();
     }
+
+    public void unpark(int id) {
+        parkingRepository.unpark(id);
+    }
 }
