@@ -8,6 +8,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.List;
+
 @Repository
 public interface ParkingRepository extends JpaRepository<ParkingSpot, Long> {
 
@@ -15,4 +19,13 @@ public interface ParkingRepository extends JpaRepository<ParkingSpot, Long> {
     @Transactional
     @Query("update ParkingSpot p set p.status.id = 2 where p.id = :id")
     void unpark(@Param("id") int id);
+
+    @Query("select count(p) from ParkingSpot p " +
+            "inner join Building b on p.user.building.id = :buildingId " +
+            "and p.status.id = 1 " +
+            "and p.startTime <= :time " +
+            "and p.endTime >= :endTime")
+    int getNumberOfParkedCars(@Param("buildingId") int buildingId, @Param("time") LocalDateTime date, @Param("endTime") LocalDateTime endTime);
+
+    List<ParkingSpot> findByUserId(int userId);
 }
