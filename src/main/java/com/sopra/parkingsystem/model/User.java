@@ -23,8 +23,9 @@ public class User {
     @ManyToOne
     @JoinColumn(name = "roleid")
     private Role role;
-    @Column(name = "totalparkingspots")
-    private int totalparkingspots;
-    @Column(name = "totalparkingspotsavailable")
-    private int totalparkingspotsavailable;
+    @JoinColumn(name = "buildingid")
+    @ManyToOne
+    private Building building;
+
+
 }
