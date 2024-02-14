@@ -27,5 +27,6 @@ public interface ParkingRepository extends JpaRepository<ParkingSpot, Long> {
             "and p.endTime >= :endTime")
     int getNumberOfParkedCars(@Param("buildingId") int buildingId, @Param("time") LocalDateTime date, @Param("endTime") LocalDateTime endTime);
 
-    List<ParkingSpot> findByUserId(int userId);
+    @Query("select p from ParkingSpot p where p.user.building.id = :buildingId")
+    List<ParkingSpot> findByBuildingId(int buildingId);
 }

@@ -2,12 +2,7 @@ package com.sopra.parkingsystem.service;
 
 import com.sopra.parkingsystem.ParkingSystemApplication;
 import com.sopra.parkingsystem.model.*;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -17,6 +12,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(classes = {ParkingSystemApplication.class})
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class ParkingServiceTest {
 
@@ -101,13 +97,15 @@ class ParkingServiceTest {
     }
 
     @Test
+    @Order(1)
     void getAllParkingSpotsShouldBe5() {
-        List<ParkingSpot> parkingSpots = parkingService.getParkingSpotsByUserId(user.getId());
+        List<ParkingSpot> parkingSpots = parkingService.getParkingSpotsByBuildingId(user.getBuilding().getId());
         assertEquals(5, parkingSpots.size());
         assertNotEquals(0, parkingSpots.size());
     }
 
     @Test
+    @Order(2)
     void tryingToAddTooManyParkingShouldFail() {
         ParkingSpot parkingSpot = ParkingSpot.builder()
                 .registrationNumber("TTT128")
@@ -117,14 +115,29 @@ class ParkingServiceTest {
                 .user(user)
                 .build();
         assertThrows(Exception.class, () -> parkingService.save(parkingSpot));
-        List<ParkingSpot> parkingSpots = parkingService.getParkingSpotsByUserId(user.getId());
+        List<ParkingSpot> parkingSpots = parkingService.getParkingSpotsByBuildingId(user.getBuilding().getId());
         assertEquals(5, parkingSpots.size());
+    }
+
+    @Test
+    @Order(3)
+    void parkingCarAfterOtherCarLeftShouldWork() {
+        ParkingSpot parkingSpot = ParkingSpot.builder()
+                .registrationNumber("TTT128")
+                .startTime(LocalDateTime.now().plusHours(2))
+                .endTime(LocalDateTime.now().plusHours(2).plusMinutes(30))
+                .status(new Status(1, "PARKED"))
+                .user(user)
+                .build();
+        assertDoesNotThrow(() -> parkingService.save(parkingSpot));
+        List<ParkingSpot> parkingSpots = parkingService.getParkingSpotsByBuildingId(user.getBuilding().getId());
+        assertEquals(6, parkingSpots.size());
     }
 
     @AfterAll
     public void tearDown() {
         User user = userService.getUserByEmail(EMAIL);
-        parkingService.getParkingSpotsByUserId(user.getId())
+        parkingService.getParkingSpotsByBuildingId(user.getBuilding().getId())
                 .forEach(parkingService::delete);
         userService.delete(user);
         Building building = buildingService.getByName("Test building");

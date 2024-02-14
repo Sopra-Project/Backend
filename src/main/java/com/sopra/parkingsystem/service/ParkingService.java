@@ -5,7 +5,6 @@ import com.sopra.parkingsystem.repository.ParkingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -34,12 +33,16 @@ public class ParkingService {
 //        return parkingRepository.getFreeParkingSpots(date);
 //    }
 
-    private int isParkingFull(ParkingSpot parking) {
-        return parkingRepository.getNumberOfParkedCars(parking.getUser().getBuilding().getId(), parking.getStartTime(), parking.getEndTime());
+    private int getParkedCarsWithDate(ParkingSpot parking) {
+        return parkingRepository.getNumberOfParkedCars(
+                parking.getUser().getBuilding().getId(),
+                parking.getStartTime(),
+                parking.getEndTime()
+        );
     }
 
     public void save(ParkingSpot parkingSpot) {
-        if (isParkingFull(parkingSpot) < parkingSpot.getUser().getBuilding().getTotalParkingSpots()) {
+        if (getParkedCarsWithDate(parkingSpot) < parkingSpot.getUser().getBuilding().getTotalParkingSpots()) {
             parkingRepository.save(parkingSpot);
         } else {
             throw new RuntimeException("Parking is full");
@@ -50,7 +53,7 @@ public class ParkingService {
         parkingRepository.delete(parkingSpot);
     }
 
-    public List<ParkingSpot> getParkingSpotsByUserId(int userId) {
-        return parkingRepository.findByUserId(userId);
+    public List<ParkingSpot> getParkingSpotsByBuildingId(int buildingId) {
+        return parkingRepository.findByBuildingId(buildingId);
     }
 }
