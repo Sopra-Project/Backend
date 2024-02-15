@@ -33,8 +33,9 @@ public class UserController {
         return userService.getAllUsers();
     }
 
+    //fixme: this is a test method
     @GetMapping("/user")
-    public Optional<User> user() {
+    public User user() {
         return userService.getUserById(1);
     }
 
