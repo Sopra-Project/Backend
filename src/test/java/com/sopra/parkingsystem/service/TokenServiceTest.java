@@ -26,7 +26,7 @@ class TokenServiceTest {
                 .name("Test User")
                 .email("tester123@test.tester")
                 .building(new Building(1, "Test Building", 5))
-                .role(new Role(1, "USER"))
+                .role(Role.USER)
                 .build();
     }
 

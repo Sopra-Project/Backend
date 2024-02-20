@@ -44,7 +44,7 @@ class ParkingServiceTest {
                 .name("Test")
                 .email(EMAIL)
                 .building(this.building)
-                .role(new Role(1, "USER"))
+                .role(Role.USER)
                 .build();
         userService.save(user);
 

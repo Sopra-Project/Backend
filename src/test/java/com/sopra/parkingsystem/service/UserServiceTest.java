@@ -41,7 +41,7 @@ class UserServiceTest {
                 .name("Test")
                 .email("mail123@mail.com")
                 .building(this.building)
-                .role(new Role(1, "USER"))
+                .role(Role.USER)
                 .build();
         userService.save(user);
         this.user = userService.getUserByEmail("mail123@mail.com");
@@ -50,7 +50,7 @@ class UserServiceTest {
                 .name("Tester")
                 .email("mail1234@mail.com")
                 .building(this.building)
-                .role(new Role(1, "USER"))
+                .role(Role.USER)
                 .build();
         userService.save(user2);
 
@@ -58,7 +58,7 @@ class UserServiceTest {
                 .name("Test11")
                 .email("mail12345@mail.com")
                 .building(this.building)
-                .role(new Role(1, "USER"))
+                .role(Role.USER)
                 .build();
         userService.save(user3);
 
