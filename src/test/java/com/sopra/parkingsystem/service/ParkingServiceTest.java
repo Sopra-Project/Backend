@@ -140,7 +140,7 @@ class ParkingServiceTest {
         parkingService.getParkingSpotsByBuildingId(user.getBuilding().getId())
                 .forEach(parkingService::delete);
         userService.delete(user);
-        Building building = buildingService.getByName("Test building");
+        Building building = buildingService.getByName(BUILDING_NAME);
         buildingService.delete(building.getId());
     }
 

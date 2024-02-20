@@ -29,7 +29,7 @@ public class AuthService {
         User user = userService.getUserByEmail(email);
         if (user != null) {
             mailSenderService.sendEmail(user);
-            return tokenService.encodeToken(user);
+            return "Code sent to email";
         }
         return null;
     }
