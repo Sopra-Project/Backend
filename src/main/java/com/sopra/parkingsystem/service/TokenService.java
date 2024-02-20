@@ -29,6 +29,7 @@ public class TokenService {
                 .claim("role", role)
                 .claim("name", user.getName())
                 .claim("building", user.getBuilding().getName())
+                .claim("buildingId", String.valueOf(user.getBuilding().getId()))
                 .expiresAt(now.plusSeconds(60 * 60 * 24))
                 .issuedAt(now)
                 .build();
@@ -55,8 +56,12 @@ public class TokenService {
         return getClaim(token, "name");
     }
 
-    public String getBuilding(String token) {
+    public String getBuildingName(String token) {
         return getClaim(token, "building");
+    }
+
+    public int getBuildingId(String token) {
+        return Integer.parseInt(getClaim(token, "buildingId"));
     }
 
     public boolean isTokenValid(String token) {

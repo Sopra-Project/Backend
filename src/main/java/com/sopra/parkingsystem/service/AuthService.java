@@ -45,4 +45,9 @@ public class AuthService {
         userCodeService.delete(userCode);
         return !userCode.isExpired();
     }
+
+    public String generateToken(String email) {
+        User user = userService.getUserByEmail(email);
+        return tokenService.encodeToken(user);
+    }
 }

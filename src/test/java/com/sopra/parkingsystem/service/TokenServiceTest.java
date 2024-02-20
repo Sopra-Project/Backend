@@ -57,7 +57,7 @@ class TokenServiceTest {
     @Test
     void getBuilding() {
         String token = tokenService.encodeToken(user);
-        assertEquals("Test Building", tokenService.getBuilding(token));
+        assertEquals("Test Building", tokenService.getBuildingName(token));
     }
 
     @Test
