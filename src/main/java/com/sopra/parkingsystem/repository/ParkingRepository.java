@@ -29,4 +29,7 @@ public interface ParkingRepository extends JpaRepository<ParkingSpot, Long> {
 
     @Query("select p from ParkingSpot p where p.user.building.id = :buildingId")
     List<ParkingSpot> findByBuildingId(int buildingId);
+
+    @Query("select p from ParkingSpot p where p.startTime >= :from and p.endTime <= :to and p.user.building.id = :buildingId")
+    List<ParkingSpot> findParkingSpotsFromToFromBuilding(@Param("from") LocalDateTime from, @Param("to") LocalDateTime to, @Param("buildingId") int buildingId);
 }

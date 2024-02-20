@@ -5,6 +5,7 @@ import com.sopra.parkingsystem.repository.ParkingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -29,16 +30,16 @@ public class ParkingService {
         return parkingRepository.findById(id).orElse(null);
     }
 
-//    public List<ParkingSpot> getFreeParkingSpots(Date date) {
-//        return parkingRepository.getFreeParkingSpots(date);
-//    }
-
     private int getParkedCarsWithDate(ParkingSpot parking) {
         return parkingRepository.getNumberOfParkedCars(
                 parking.getUser().getBuilding().getId(),
                 parking.getStartTime(),
                 parking.getEndTime()
         );
+    }
+
+    public List<ParkingSpot> getParkingSpotsFromToFromBuilding(LocalDateTime from, LocalDateTime to, int buildingId) {
+        return parkingRepository.findParkingSpotsFromToFromBuilding(from, to, buildingId);
     }
 
     public void save(ParkingSpot parkingSpot) {

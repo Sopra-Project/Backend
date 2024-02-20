@@ -134,6 +134,13 @@ class ParkingServiceTest {
         assertEquals(6, parkingSpots.size());
     }
 
+    @Test
+    @Order(4)
+    void findParkingSpotsFromToFromBuildingShouldBe6() {
+        List<ParkingSpot> parkingSpots = parkingService.getParkingSpotsFromToFromBuilding(LocalDateTime.now().minusMinutes(30), LocalDateTime.now().plusHours(3), user.getBuilding().getId());
+        assertEquals(6, parkingSpots.size());
+    }
+
     @AfterAll
     public void tearDown() {
         User user = userService.getUserByEmail(EMAIL);
