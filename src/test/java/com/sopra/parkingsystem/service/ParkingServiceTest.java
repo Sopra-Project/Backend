@@ -44,7 +44,7 @@ class ParkingServiceTest {
                 .name("Test")
                 .email(EMAIL)
                 .building(this.building)
-                .role(new Role(1, "USER"))
+                .role(Role.USER)
                 .build();
         userService.save(user);
 
@@ -134,13 +134,27 @@ class ParkingServiceTest {
         assertEquals(6, parkingSpots.size());
     }
 
+    @Test
+    @Order(4)
+    void findParkingSpotsFromToFromBuildingShouldBe6() {
+        List<ParkingSpot> parkingSpots = parkingService.getParkingSpotsFromToFromBuilding(LocalDateTime.now().minusMinutes(30), LocalDateTime.now().plusHours(3), user.getBuilding().getId());
+        assertEquals(6, parkingSpots.size());
+    }
+
+    @Test
+    @Order(5)
+    void findParkingSpotsBetween1And2ShouldBe5() {
+        List<ParkingSpot> parkingSpots = parkingService.getParkingSpotsFromToFromBuilding(LocalDateTime.now().minusMinutes(30), LocalDateTime.now().plusHours(1), user.getBuilding().getId());
+        assertEquals(5, parkingSpots.size());
+    }
+
     @AfterAll
     public void tearDown() {
         User user = userService.getUserByEmail(EMAIL);
         parkingService.getParkingSpotsByBuildingId(user.getBuilding().getId())
                 .forEach(parkingService::delete);
         userService.delete(user);
-        Building building = buildingService.getByName("Test building");
+        Building building = buildingService.getByName(BUILDING_NAME);
         buildingService.delete(building.getId());
     }
 

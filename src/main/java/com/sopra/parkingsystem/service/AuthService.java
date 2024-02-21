@@ -29,7 +29,7 @@ public class AuthService {
         User user = userService.getUserByEmail(email);
         if (user != null) {
             mailSenderService.sendEmail(user);
-            return tokenService.encodeToken(user);
+            return "Code sent to email";
         }
         return null;
     }
@@ -44,5 +44,10 @@ public class AuthService {
         }
         userCodeService.delete(userCode);
         return !userCode.isExpired();
+    }
+
+    public String generateToken(String email) {
+        User user = userService.getUserByEmail(email);
+        return tokenService.encodeToken(user);
     }
 }

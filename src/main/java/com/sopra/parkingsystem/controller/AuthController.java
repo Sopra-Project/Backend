@@ -33,7 +33,7 @@ public class AuthController {
     @PostMapping("/code")
     public ResponseEntity<String> code(@RequestBody CodeAuthDTO dto) {
         if (authService.validateCode(dto)) {
-            return ResponseEntity.ok("Code is valid");
+            return ResponseEntity.ok(authService.generateToken(dto.getEmail()));
         }
         return ResponseEntity.badRequest().body("Code is invalid");
     }

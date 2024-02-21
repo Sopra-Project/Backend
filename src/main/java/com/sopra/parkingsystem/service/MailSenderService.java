@@ -2,6 +2,7 @@ package com.sopra.parkingsystem.service;
 
 import com.sopra.parkingsystem.model.User;
 import com.sopra.parkingsystem.model.UserCode;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,7 @@ public class MailSenderService {
     private final JavaMailSender mailSender;
     private final UserCodeService userCodeService;
 
+    @Autowired
     public MailSenderService(JavaMailSender mailSender, UserCodeService userCodeService) {
         this.mailSender = mailSender;
         this.userCodeService = userCodeService;
