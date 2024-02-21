@@ -47,6 +47,7 @@ public class SecurityConfig implements WebMvcConfigurer {
                 .build();
     }
 
+
     @Bean
     public JwtDecoder jwtDecoder() {
         return NimbusJwtDecoder.withPublicKey(this.keys.getPublicKey()).build();
