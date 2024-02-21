@@ -18,9 +18,6 @@ public class ParkingService {
         this.parkingRepository = parkingRepository;
     }
 
-    public List<ParkingSpot> getAllParkingSpots() {
-        return parkingRepository.findAll();
-    }
 
     public void unpark(int id) {
         parkingRepository.unpark(id);

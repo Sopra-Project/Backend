@@ -25,8 +25,9 @@ public class ParkingController {
     }
 
     @RequestMapping("/all")
-    public List<ParkingSpot> getAll() {
-        return parkingService.getAllParkingSpots();
+    public List<ParkingSpot> getAll(final JwtAuthenticationToken token) {
+        int buildingId = tokenService.getBuildingId(token.getToken().getTokenValue());
+        return parkingService.getParkingSpotsByBuildingId(buildingId);
     }
 
     @PutMapping("/{id}/free")
@@ -35,7 +36,7 @@ public class ParkingController {
     }
 
     @GetMapping("/{id}")
-    public ParkingSpot getById(@PathVariable long id) {
+    public ParkingSpot getById(@PathVariable int id) {
         return parkingService.getById(id);
     }
 

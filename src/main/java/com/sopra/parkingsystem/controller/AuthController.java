@@ -23,11 +23,11 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody AuthDTO authDTO) {
-        String token = authService.login(authDTO.getEmail()); //todo connect to mail service
-        if (token == null) {
+        String response = authService.login(authDTO.getEmail());
+        if (response == null) {
             return ResponseEntity.badRequest().body("Invalid email");
         }
-        return ResponseEntity.ok(token);
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/code")
