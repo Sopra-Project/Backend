@@ -16,22 +16,22 @@ public class AuthService {
     private final TokenService tokenService;
     private final MailSenderService mailSenderService;
     private final UserCodeService userCodeService;
-    private final EnvironmentComponent enviromentComponent;
+    private final EnvironmentComponent environmentComponent;
 
     @Autowired
     public AuthService(UserService userService, TokenService tokenService,
                        MailSenderService mailSenderService, UserCodeService userCodeService,
-                       EnvironmentComponent enviromentComponent) {
+                       EnvironmentComponent environmentComponent) {
         this.userService = userService;
         this.tokenService = tokenService;
         this.mailSenderService = mailSenderService;
         this.userCodeService = userCodeService;
-        this.enviromentComponent = enviromentComponent;
+        this.environmentComponent = environmentComponent;
     }
 
     public String login(String email) {
         User user = userService.getUserByEmail(email);
-        if (enviromentComponent.isDev()) {
+        if (environmentComponent.isDev()) {
             return tokenService.encodeToken(user);
         }
 
