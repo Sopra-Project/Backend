@@ -1,5 +1,6 @@
 package com.sopra.parkingsystem.service;
 
+import com.nimbusds.jose.shaded.gson.JsonObject;
 import com.sopra.parkingsystem.model.User;
 import com.sopra.parkingsystem.model.UserCode;
 import com.sopra.parkingsystem.model.dto.CodeAuthDTO;
@@ -29,15 +30,19 @@ public class AuthService {
         this.environmentComponent = environmentComponent;
     }
 
-    public String login(String email) {
+    public JsonObject login(String email) {
         User user = userService.getUserByEmail(email);
         if (environmentComponent.isDev()) {
-            return tokenService.encodeToken(user);
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("token", tokenService.encodeToken(user));
+            return jsonObject;
         }
 
         if (user != null) {
             mailSenderService.sendEmail(user);
-            return "Code sent to email";
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("message", "Code has been sent to your email");
+            return jsonObject;
         }
         return null;
     }

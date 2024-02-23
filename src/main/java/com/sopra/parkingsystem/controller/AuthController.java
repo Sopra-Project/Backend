@@ -1,5 +1,6 @@
 package com.sopra.parkingsystem.controller;
 
+import com.nimbusds.jose.shaded.gson.JsonObject;
 import com.sopra.parkingsystem.model.dto.AuthDTO;
 import com.sopra.parkingsystem.model.dto.CodeAuthDTO;
 import com.sopra.parkingsystem.service.AuthService;
@@ -23,11 +24,11 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody AuthDTO authDTO) {
-        String response = authService.login(authDTO.getEmail());
+        JsonObject response = authService.login(authDTO.getEmail());
         if (response == null) {
             return ResponseEntity.badRequest().body("Invalid email");
         }
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(response.toString());
     }
 
     @PostMapping("/code")
