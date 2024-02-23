@@ -63,4 +63,8 @@ public class AuthService {
         User user = userService.getUserByEmail(email);
         return tokenService.encodeToken(user);
     }
+
+    public boolean validateToken(String token) {
+        return tokenService.isTokenValid(token);
+    }
 }

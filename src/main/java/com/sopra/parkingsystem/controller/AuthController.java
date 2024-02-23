@@ -6,10 +6,8 @@ import com.sopra.parkingsystem.model.dto.CodeAuthDTO;
 import com.sopra.parkingsystem.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -37,6 +35,14 @@ public class AuthController {
             return ResponseEntity.ok(authService.generateToken(dto.getEmail()));
         }
         return ResponseEntity.badRequest().body("Code is invalid");
+    }
+
+    @GetMapping("/validate/token")
+    public ResponseEntity<String> validateToken(final JwtAuthenticationToken token) {
+        if (authService.validateToken(token.getToken().getTokenValue())) {
+            return ResponseEntity.ok("Token is valid");
+        }
+        return ResponseEntity.badRequest().body("Token is invalid");
     }
 
 }
