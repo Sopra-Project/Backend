@@ -8,6 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -146,6 +147,29 @@ class ParkingServiceTest {
     void findParkingSpotsBetween1And2ShouldBe5() {
         List<ParkingSpot> parkingSpots = parkingService.getParkingSpotsFromToFromBuilding(LocalDateTime.now().minusMinutes(30), LocalDateTime.now().plusHours(1), user.getBuilding().getId());
         assertEquals(5, parkingSpots.size());
+    }
+
+    @Test
+    @Order(6)
+    void getAllMonthsParkingSpotsFromToFromBuildingShouldHave2Entries() {
+        ParkingSpot parkingSpot6 = ParkingSpot.builder()
+                .registrationNumber("TTT128")
+                .startTime(LocalDateTime.now().plusDays(2))
+                .endTime(LocalDateTime.now().plusHours(1))
+                .status(new Status(1, "PARKED"))
+                .user(user)
+                .build();
+        parkingService.save(parkingSpot6);
+
+        Map<Integer, List<ParkingSpot>> parkingSpots = parkingService.getAllMonthsParkingSpotsFromToFromBuilding(user.getBuilding().getId());
+        assertEquals(2, parkingSpots.size());
+    }
+
+    @Test
+    @Order(7)
+    void todayDateShouldBeAKeyInMap() {
+        Map<Integer, List<ParkingSpot>> parkingSpots = parkingService.getAllMonthsParkingSpotsFromToFromBuilding(user.getBuilding().getId());
+        assertTrue(parkingSpots.containsKey(LocalDateTime.now().getDayOfMonth()));
     }
 
     @AfterAll

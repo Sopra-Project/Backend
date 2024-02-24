@@ -7,6 +7,9 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
+
+import static java.util.stream.Collectors.groupingBy;
 
 @Service
 public class ParkingService {
@@ -37,6 +40,13 @@ public class ParkingService {
 
     public List<ParkingSpot> getParkingSpotsFromToFromBuilding(LocalDateTime from, LocalDateTime to, int buildingId) {
         return parkingRepository.findParkingSpotsFromToFromBuilding(from, to, buildingId);
+    }
+
+    public Map<Integer, List<ParkingSpot>> getAllMonthsParkingSpotsFromToFromBuilding(int buildingId) {
+        LocalDateTime from = LocalDateTime.now().withDayOfMonth(1);
+        LocalDateTime to = LocalDateTime.now().plusMonths(1).withDayOfMonth(1);
+        List<ParkingSpot> parkingSpots = getParkingSpotsFromToFromBuilding(from, to, buildingId);
+        return parkingSpots.stream().collect(groupingBy(parkingSpot -> parkingSpot.getStartTime().getDayOfMonth()));
     }
 
     public void save(ParkingSpot parkingSpot) {
