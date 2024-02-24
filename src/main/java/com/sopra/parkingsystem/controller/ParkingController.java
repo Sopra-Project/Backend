@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/parking")
@@ -48,6 +49,12 @@ public class ParkingController {
 
         int buildingId = tokenService.getBuildingId(token.getToken().getTokenValue());
         return parkingService.getParkingSpotsFromToFromBuilding(date, endDate, buildingId);
+    }
+
+    @GetMapping("/month")
+    public Map<Integer, List<ParkingSpot>> getByMonth(final JwtAuthenticationToken token) {
+        int buildingId = tokenService.getBuildingId(token.getToken().getTokenValue());
+        return parkingService.getAllMonthsParkingSpotsFromToFromBuilding(buildingId);
     }
 
 }

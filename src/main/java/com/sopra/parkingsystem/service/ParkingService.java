@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
+import static java.time.temporal.TemporalAdjusters.lastDayOfMonth;
 import static java.util.stream.Collectors.groupingBy;
 
 @Service
@@ -44,7 +45,7 @@ public class ParkingService {
 
     public Map<Integer, List<ParkingSpot>> getAllMonthsParkingSpotsFromToFromBuilding(int buildingId) {
         LocalDateTime from = LocalDateTime.now().withDayOfMonth(1);
-        LocalDateTime to = LocalDateTime.now().plusMonths(1).withDayOfMonth(1);
+        LocalDateTime to = LocalDateTime.now().with(lastDayOfMonth());
         List<ParkingSpot> parkingSpots = getParkingSpotsFromToFromBuilding(from, to, buildingId);
         return parkingSpots.stream().collect(groupingBy(parkingSpot -> parkingSpot.getStartTime().getDayOfMonth()));
     }
