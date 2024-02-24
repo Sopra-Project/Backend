@@ -41,7 +41,8 @@ public class SecurityConfig implements WebMvcConfigurer {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers("/api/**").hasAnyRole(Role.USER.getAuthority(), Role.ADMIN.getAuthority())
+                        .requestMatchers("/api/parking/**").hasAnyRole(Role.USER.getAuthority(), Role.ADMIN.getAuthority())
+                        .requestMatchers("/api/user/**").hasRole(Role.ADMIN.getAuthority())
                         .anyRequest().authenticated()
                 )
                 .cors(Customizer.withDefaults())
