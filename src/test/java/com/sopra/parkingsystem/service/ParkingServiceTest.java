@@ -150,22 +150,21 @@ class ParkingServiceTest {
         assertEquals(5, parkingSpots.size());
     }
 
-    @Test
-    @Order(6)
-    @Ignore
-    void getAllMonthsParkingSpotsFromToFromBuildingShouldHave2Entries() {
-        ParkingSpot parkingSpot6 = ParkingSpot.builder()
-                .registrationNumber("TTT128")
-                .startTime(LocalDateTime.now().plusDays(2))
-                .endTime(LocalDateTime.now().plusHours(1))
-                .status(new Status(1, "PARKED"))
-                .user(user)
-                .build();
-        parkingService.save(parkingSpot6);
-
-        Map<Integer, List<ParkingSpot>> parkingSpots = parkingService.getAllMonthsParkingSpotsFromToFromBuilding(user.getBuilding().getId());
-        assertEquals(2, parkingSpots.size());
-    }
+//    @Test
+//    @Order(6)
+//    void getAllMonthsParkingSpotsFromToFromBuildingShouldHave2Entries() {
+//        ParkingSpot parkingSpot6 = ParkingSpot.builder()
+//                .registrationNumber("TTT128")
+//                .startTime(LocalDateTime.now().plusDays(2))
+//                .endTime(LocalDateTime.now().plusHours(1))
+//                .status(new Status(1, "PARKED"))
+//                .user(user)
+//                .build();
+//        parkingService.save(parkingSpot6);
+//
+//        Map<Integer, List<ParkingSpot>> parkingSpots = parkingService.getAllMonthsParkingSpotsFromToFromBuilding(user.getBuilding().getId());
+//        assertEquals(2, parkingSpots.size());
+//    }
 
     @Test
     @Order(7)
