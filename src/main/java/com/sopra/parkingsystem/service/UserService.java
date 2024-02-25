@@ -1,6 +1,8 @@
 package com.sopra.parkingsystem.service;
 
 import com.sopra.parkingsystem.model.User;
+import com.sopra.parkingsystem.model.dto.CreateUserDTO;
+import com.sopra.parkingsystem.model.dto.EditUserDTO;
 import com.sopra.parkingsystem.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +30,23 @@ public class UserService {
     public List<User> getUsersByBuildingId(int id) {
         return userRepository.findByBuildingId(id);
     }
+
+    public User createUser(CreateUserDTO dto, int buildingId) {
+        User user = dto.toUser(buildingId);
+        return userRepository.save(user);
+    }
+
+    public int updateUser(EditUserDTO dto, int buildingId) {
+        User user = userRepository.findById(dto.id).orElse(null);
+        if (user == null) {
+            return 0;
+        }
+        if (user.getBuilding().getId() != buildingId) {
+            return 0;
+        }
+        return userRepository.update(dto.name, dto.email, dto.roleId, dto.id);
+    }
+
 
     public void save(User user) {
         userRepository.save(user);

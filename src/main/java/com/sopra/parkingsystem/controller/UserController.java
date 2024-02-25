@@ -1,13 +1,13 @@
 package com.sopra.parkingsystem.controller;
 
 import com.sopra.parkingsystem.model.User;
+import com.sopra.parkingsystem.model.dto.CreateUserDTO;
+import com.sopra.parkingsystem.model.dto.EditUserDTO;
 import com.sopra.parkingsystem.service.TokenService;
 import com.sopra.parkingsystem.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,6 +28,18 @@ public class UserController {
     public List<User> getAllByBuildingId(final JwtAuthenticationToken token) {
         int buildingId = tokenService.getBuildingId(token.getToken().getTokenValue());
         return userService.getUsersByBuildingId(buildingId);
+    }
+
+    @PostMapping
+    public User createUser(final JwtAuthenticationToken token, @RequestBody final CreateUserDTO dto) {
+        int buildingId = tokenService.getBuildingId(token.getToken().getTokenValue());
+        return userService.createUser(dto, buildingId);
+    }
+
+    @PutMapping
+    public int updateUser(final JwtAuthenticationToken token, @RequestBody final EditUserDTO dto) {
+        int buildingId = tokenService.getBuildingId(token.getToken().getTokenValue());
+        return userService.updateUser(dto, buildingId);
     }
 
 }
