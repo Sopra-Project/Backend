@@ -25,12 +25,6 @@ public class ParkingController {
         this.parkingService = parkingService;
     }
 
-    @RequestMapping("/all")
-    public List<ParkingSpot> getAll(final JwtAuthenticationToken token) {
-        int buildingId = tokenService.getBuildingId(token.getToken().getTokenValue());
-        return parkingService.getParkingSpotsByBuildingId(buildingId);
-    }
-
     @PutMapping("/{id}/free")
     public void freeSpot(@PathVariable int id) {
         parkingService.unpark(id);
@@ -51,10 +45,10 @@ public class ParkingController {
         return parkingService.getParkingSpotsFromToFromBuilding(date, endDate, buildingId);
     }
 
-    @GetMapping("/month")
-    public Map<Integer, List<ParkingSpot>> getByMonth(final JwtAuthenticationToken token) {
+    @GetMapping("/all")
+    public Map<Integer, Map<Integer, List<ParkingSpot>>> getByMonth(final JwtAuthenticationToken token) {
         int buildingId = tokenService.getBuildingId(token.getToken().getTokenValue());
-        return parkingService.getAllMonthsParkingSpotsFromToFromBuilding(buildingId);
+        return parkingService.getAllYearsParkingSpotsFromToFromBuilding(buildingId);
     }
 
     @PostMapping

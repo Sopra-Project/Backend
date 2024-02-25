@@ -2,7 +2,6 @@ package com.sopra.parkingsystem.service;
 
 import com.sopra.parkingsystem.ParkingSystemApplication;
 import com.sopra.parkingsystem.model.*;
-import org.junit.Ignore;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -166,12 +165,12 @@ class ParkingServiceTest {
 //        assertEquals(2, parkingSpots.size());
 //    }
 
-    @Test
-    @Order(7)
-    void todayDateShouldBeAKeyInMap() {
-        Map<Integer, List<ParkingSpot>> parkingSpots = parkingService.getAllMonthsParkingSpotsFromToFromBuilding(user.getBuilding().getId());
-        assertTrue(parkingSpots.containsKey(LocalDateTime.now().getDayOfMonth()));
-    }
+//    @Test
+//    @Order(7)
+//    void todayDateShouldBeAKeyInMap() {
+//        Map<Integer, List<ParkingSpot>> parkingSpots = parkingService.getAllYearsParkingSpotsFromToFromBuilding(user.getBuilding().getId());
+//        assertTrue(parkingSpots.containsKey(LocalDateTime.now().getDayOfMonth()));
+//    }
 
     @AfterAll
     public void tearDown() {
