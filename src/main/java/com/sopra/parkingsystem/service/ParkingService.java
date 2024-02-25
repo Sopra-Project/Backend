@@ -1,5 +1,6 @@
 package com.sopra.parkingsystem.service;
 
+import com.sopra.parkingsystem.controller.CreateParkingSpotDTO;
 import com.sopra.parkingsystem.model.ParkingSpot;
 import com.sopra.parkingsystem.repository.ParkingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ public class ParkingService {
         parkingRepository.unpark(id);
     }
 
-    public ParkingSpot getById(long id) {
+    public ParkingSpot getById(int id) {
         return parkingRepository.findById(id).orElse(null);
     }
 
@@ -49,6 +50,22 @@ public class ParkingService {
         List<ParkingSpot> parkingSpots = getParkingSpotsFromToFromBuilding(from, to, buildingId);
         return parkingSpots.stream().collect(groupingBy(parkingSpot -> parkingSpot.getStartTime().getDayOfMonth()));
     }
+
+    public ParkingSpot addParkingSpot(CreateParkingSpotDTO dto, int userId) {
+        ParkingSpot parkingSpot = dto.toParkingSpot(userId);
+        return parkingRepository.save(parkingSpot);
+    }
+
+    public void deleteParkingSpot(int id) {
+        parkingRepository.deleteById(id);
+    }
+
+    public void updateParkingSpot(CreateParkingSpotDTO dto, int id) {
+        ParkingSpot parkingSpot = dto.toParkingSpot();
+        parkingSpot.setId(id);
+        parkingRepository.update(dto.startTime, dto.endTime, dto.registrationNumber, id);
+    }
+
 
     public void save(ParkingSpot parkingSpot) {
         if (getParkedCarsWithDate(parkingSpot) < parkingSpot.getUser().getBuilding().getTotalParkingSpots()) {

@@ -57,4 +57,20 @@ public class ParkingController {
         return parkingService.getAllMonthsParkingSpotsFromToFromBuilding(buildingId);
     }
 
+    @PostMapping
+    public ParkingSpot addParkingSpot(final JwtAuthenticationToken token, @RequestBody CreateParkingSpotDTO dto) {
+        int userId = tokenService.getUserId(token.getToken().getTokenValue());
+        return parkingService.addParkingSpot(dto, userId);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteParkingSpot(final JwtAuthenticationToken token, @PathVariable int id) {
+        parkingService.deleteParkingSpot(id);
+    }
+
+    @PutMapping("/{id}")
+    public void updateParkingSpot(final JwtAuthenticationToken token, @PathVariable int id, @RequestBody CreateParkingSpotDTO dto) {
+        parkingService.updateParkingSpot(dto, id);
+    }
+
 }
