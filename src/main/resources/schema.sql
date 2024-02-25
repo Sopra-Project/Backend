@@ -67,6 +67,10 @@ INSERT INTO Roles (name)
 SELECT 'INSPECTOR'
 WHERE NOT EXISTS(SELECT 1 FROM Roles WHERE name = 'INSPECTOR');
 
+INSERT INTO Roles (name)
+SELECT 'SUPER_ADMIN'
+WHERE NOT EXISTS(SELECT 1 FROM Roles WHERE name = 'SUPER_ADMIN');
+
 -- Inserting Parking Status if not exists
 INSERT INTO ParkingStatus (name)
 SELECT 'PARKED'
@@ -96,6 +100,11 @@ WHERE NOT EXISTS(SELECT 1 FROM Users WHERE email = 'user@test.test');
 INSERT INTO Users (name, email, roleID, buildingID)
 SELECT 'Inspector', 'inspector@test.test', (SELECT id FROM Roles WHERE name = 'INSPECTOR'), 1
 WHERE NOT EXISTS(SELECT 1 FROM Users WHERE email = 'inspector@test.test');
+
+-- Inserting test Super Admin if not exists
+INSERT INTO Users (name, email, roleID, buildingID)
+SELECT 'Super Admin', 'super@test.test', (SELECT id FROM Roles WHERE name = 'SUPER_ADMIN'), 1
+WHERE NOT EXISTS(SELECT 1 FROM Users WHERE email = 'super@test.test');
 
 -- Inserting test Parking Spots if not exists
 INSERT INTO ParkingSpots (userID, regNumber, fromTime, toTime, parkingStatusId)
