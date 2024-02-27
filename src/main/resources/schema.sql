@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS Users
 (
     id         serial PRIMARY KEY,
     name       VARCHAR(100) NOT NULL,
-    email      VARCHAR(255) NOT NULL,
+    email      VARCHAR(255) NOT NULL UNIQUE,
     roleID     INT          NOT NULL,
     FOREIGN KEY (roleID) REFERENCES Roles (id),
     buildingID INT          NOT NULL,

@@ -33,7 +33,7 @@ public class UserService {
 
     public User createUser(CreateUserDTO dto, int buildingId) {
         User user = dto.toUser(buildingId);
-        return userRepository.save(user);
+        return save(user);
     }
 
     public int updateUser(EditUserDTO dto, int buildingId) {
@@ -48,8 +48,11 @@ public class UserService {
     }
 
 
-    public void save(User user) {
-        userRepository.save(user);
+    public User save(User user) {
+        if (userRepository.findByEmail(user.getEmail()) != null) {
+            throw new IllegalArgumentException("User with this email already exists");
+        }
+        return userRepository.save(user);
     }
 
     public void delete(User user) {
