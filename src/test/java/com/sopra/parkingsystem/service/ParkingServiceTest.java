@@ -2,13 +2,13 @@ package com.sopra.parkingsystem.service;
 
 import com.sopra.parkingsystem.ParkingSystemApplication;
 import com.sopra.parkingsystem.model.*;
+import com.sopra.parkingsystem.model.dto.CreateUserDTO;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -41,13 +41,12 @@ class ParkingServiceTest {
         buildingService.save(building);
         this.building = buildingService.getByName(BUILDING_NAME);
 
-        user = User.builder()
+        CreateUserDTO create = CreateUserDTO.builder()
                 .name("Test")
                 .email(EMAIL)
-                .building(this.building)
-                .role(Role.USER)
+                .roleId(Role.USER.getId())
                 .build();
-        userService.save(user);
+        userService.createUser(create, this.building.getId());
 
         user = userService.getUserByEmail(EMAIL);
 

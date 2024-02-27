@@ -3,9 +3,11 @@ package com.sopra.parkingsystem.model.dto;
 import com.sopra.parkingsystem.model.Building;
 import com.sopra.parkingsystem.model.Role;
 import com.sopra.parkingsystem.model.User;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 public class CreateUserDTO {
     public String name;
     public String email;
@@ -13,15 +15,16 @@ public class CreateUserDTO {
 
 
     public User toUser(int buildingId) {
-        User user = new User();
-        user.setName(name);
-        user.setEmail(email);
-        Role role = new Role();
-        role.setId(roleId);
-        user.setRole(role);
-        Building building = new Building();
-        building.setId(buildingId);
-        user.setBuilding(building);
+        User user = User.builder()
+                .name(name)
+                .email(email.toLowerCase())
+                .role(Role.builder()
+                        .id(roleId)
+                        .build())
+                .building(Building.builder()
+                        .id(buildingId)
+                        .build())
+                .build();
 
         return user;
     }

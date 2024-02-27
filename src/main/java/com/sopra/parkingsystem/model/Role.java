@@ -1,11 +1,13 @@
 package com.sopra.parkingsystem.model;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 
 @Entity
 @Data
+@Builder
 @Table(name = "roles")
 public class Role implements GrantedAuthority {
     @Id

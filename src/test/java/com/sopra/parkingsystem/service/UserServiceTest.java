@@ -4,6 +4,7 @@ import com.sopra.parkingsystem.ParkingSystemApplication;
 import com.sopra.parkingsystem.model.Building;
 import com.sopra.parkingsystem.model.Role;
 import com.sopra.parkingsystem.model.User;
+import com.sopra.parkingsystem.model.dto.CreateUserDTO;
 import com.sopra.parkingsystem.model.dto.EditUserDTO;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,30 +39,27 @@ class UserServiceTest {
         buildingService.save(building);
         this.building = buildingService.getByName(BUILDING_NAME);
 
-        User user = User.builder()
+        CreateUserDTO user = CreateUserDTO.builder()
                 .name("Test")
                 .email(DUPLICATE_MAIL)
-                .building(this.building)
-                .role(Role.USER)
+                .roleId(Role.USER.getId())
                 .build();
-        userService.save(user);
+        userService.createUser(user, this.building.getId());
         this.user = userService.getUserByEmail("mail123@mail.com");
 
-        User user2 = User.builder()
+        CreateUserDTO user2 = CreateUserDTO.builder()
                 .name("Tester")
                 .email("mail1234@mail.com")
-                .building(this.building)
-                .role(Role.USER)
+                .roleId(Role.USER.getId())
                 .build();
-        userService.save(user2);
+        userService.createUser(user2, this.building.getId());
 
-        User user3 = User.builder()
+        CreateUserDTO user3 = CreateUserDTO.builder()
                 .name("Test11")
                 .email("mail12345@mail.com")
-                .building(this.building)
-                .role(Role.USER)
+                .roleId(Role.USER.getId())
                 .build();
-        userService.save(user3);
+        userService.createUser(user3, this.building.getId());
 
     }
 
@@ -95,19 +93,31 @@ class UserServiceTest {
     @Test
     @Order(5)
     void createUserWithAlreadyExistingEmailShouldThrowException() {
-        User user = User.builder()
+        CreateUserDTO dto = CreateUserDTO.builder()
                 .name("Testmannen")
                 .email(DUPLICATE_MAIL)
-                .role(Role.USER)
-                .building(building)
+                .roleId(1)
                 .build();
         assertThrows(IllegalArgumentException.class, () -> {
-            userService.save(user);
+            userService.createUser(dto, building.getId());
         });
     }
 
     @Test
     @Order(6)
+    void createUserWithAlreadyExistingEmailInCapsShouldThrowException() {
+        CreateUserDTO dto = CreateUserDTO.builder()
+                .name("Testmannen")
+                .email(DUPLICATE_MAIL.toUpperCase())
+                .roleId(1)
+                .build();
+        assertThrows(IllegalArgumentException.class, () -> {
+            userService.createUser(dto, building.getId());
+        });
+    }
+
+    @Test
+    @Order(7)
     void updateUserWithDifferentBuildingIdShouldReturn0() {
         EditUserDTO dto = EditUserDTO.builder()
                 .id(user.getId())
@@ -119,7 +129,7 @@ class UserServiceTest {
     }
 
     @Test
-    @Order(7)
+    @Order(8)
     void updateUserWithSameBuildingIdShouldReturn1() {
         EditUserDTO dto = EditUserDTO.builder()
                 .id(user.getId())
@@ -131,7 +141,7 @@ class UserServiceTest {
     }
 
     @Test
-    @Order(8)
+    @Order(9)
     void updateUserWithNonExistingUserShouldReturn0() {
         EditUserDTO dto = EditUserDTO.builder()
                 .id(999999999)

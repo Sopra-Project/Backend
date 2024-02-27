@@ -43,7 +43,7 @@ public class SuperAdminController {
 
     @PostMapping("/user")
     public void createUser(@RequestBody CreateAdminUser dto) {
-        userService.save(dto.toUser());
+
     }
 
 
