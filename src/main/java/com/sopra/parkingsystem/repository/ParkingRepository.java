@@ -9,11 +9,10 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 @Repository
-public interface ParkingRepository extends JpaRepository<ParkingSpot, Long> {
+public interface ParkingRepository extends JpaRepository<ParkingSpot, Integer> {
 
     @Modifying
     @Transactional
@@ -32,4 +31,11 @@ public interface ParkingRepository extends JpaRepository<ParkingSpot, Long> {
 
     @Query("select p from ParkingSpot p where p.startTime >= :from and p.endTime <= :to and p.user.building.id = :buildingId")
     List<ParkingSpot> findParkingSpotsFromToFromBuilding(@Param("from") LocalDateTime from, @Param("to") LocalDateTime to, @Param("buildingId") int buildingId);
+
+
+    @Modifying
+    @Transactional
+    @Query("update ParkingSpot p set p.startTime = :startTime, p.endTime = :endTime, p.registrationNumber = :registrationNumber where p.id = :id")
+    void update(@Param("startTime") LocalDateTime startTime, @Param("endTime") LocalDateTime endTime,
+                @Param("registrationNumber") String registrationNumber, @Param("id") int id);
 }

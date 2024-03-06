@@ -26,6 +26,7 @@ public class TokenService {
         JwtClaimsSet claims = JwtClaimsSet.builder()
                 .issuer("self")
                 .subject(user.getName())
+                .claim("id", String.valueOf(user.getId()))
                 .claim("role", role)
                 .claim("name", user.getName())
                 .claim("building", user.getBuilding().getName())
@@ -62,6 +63,10 @@ public class TokenService {
 
     public int getBuildingId(String token) {
         return Integer.parseInt(getClaim(token, "buildingId"));
+    }
+
+    public int getUserId(String token) {
+        return Integer.parseInt(getClaim(token, "id"));
     }
 
     public boolean isTokenValid(String token) {

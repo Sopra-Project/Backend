@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS Users
 (
     id         serial PRIMARY KEY,
     name       VARCHAR(100) NOT NULL,
-    email      VARCHAR(255) NOT NULL,
+    email      VARCHAR(255) NOT NULL UNIQUE,
     roleID     INT          NOT NULL,
     FOREIGN KEY (roleID) REFERENCES Roles (id),
     buildingID INT          NOT NULL,
@@ -67,6 +67,10 @@ INSERT INTO Roles (name)
 SELECT 'INSPECTOR'
 WHERE NOT EXISTS(SELECT 1 FROM Roles WHERE name = 'INSPECTOR');
 
+INSERT INTO Roles (name)
+SELECT 'SUPER_ADMIN'
+WHERE NOT EXISTS(SELECT 1 FROM Roles WHERE name = 'SUPER_ADMIN');
+
 -- Inserting Parking Status if not exists
 INSERT INTO ParkingStatus (name)
 SELECT 'PARKED'
@@ -92,10 +96,19 @@ INSERT INTO Users (name, email, roleID, buildingID)
 SELECT 'User', 'user@test.test', (SELECT id FROM Roles WHERE name = 'USER'), 1
 WHERE NOT EXISTS(SELECT 1 FROM Users WHERE email = 'user@test.test');
 
+INSERT INTO Users (name, email, roleID, buildingID)
+SELECT 'Ulrik', 'sartho2000@gmail.com', (SELECT id FROM Roles WHERE name = 'USER'), 1
+WHERE NOT EXISTS(SELECT 1 FROM Users WHERE email = 'sartho2000@gmail.com');
+
 -- Inserting test Inspector if not exists
 INSERT INTO Users (name, email, roleID, buildingID)
 SELECT 'Inspector', 'inspector@test.test', (SELECT id FROM Roles WHERE name = 'INSPECTOR'), 1
 WHERE NOT EXISTS(SELECT 1 FROM Users WHERE email = 'inspector@test.test');
+
+-- Inserting test Super Admin if not exists
+INSERT INTO Users (name, email, roleID, buildingID)
+SELECT 'Super Admin', 'super@test.test', (SELECT id FROM Roles WHERE name = 'SUPER_ADMIN'), 1
+WHERE NOT EXISTS(SELECT 1 FROM Users WHERE email = 'super@test.test');
 
 -- Inserting test Parking Spots if not exists
 INSERT INTO ParkingSpots (userID, regNumber, fromTime, toTime, parkingStatusId)

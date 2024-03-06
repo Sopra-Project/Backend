@@ -5,6 +5,8 @@ import com.sopra.parkingsystem.repository.BuildingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class BuildingService {
     private final BuildingRepository buildingRepository;
@@ -22,10 +24,13 @@ public class BuildingService {
         buildingRepository.deleteById(id);
     }
 
+    public List<Building> getAll() {
+        return buildingRepository.findAll();
+    }
+
     public Building getByName(String name) {
         return buildingRepository.findByName(name);
     }
-
 
 
 }

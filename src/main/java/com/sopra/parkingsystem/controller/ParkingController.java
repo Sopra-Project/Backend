@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/parking")
@@ -24,18 +25,13 @@ public class ParkingController {
         this.parkingService = parkingService;
     }
 
-    @RequestMapping("/all")
-    public List<ParkingSpot> getAll() {
-        return parkingService.getAllParkingSpots();
-    }
-
     @PutMapping("/{id}/free")
     public void freeSpot(@PathVariable int id) {
         parkingService.unpark(id);
     }
 
     @GetMapping("/{id}")
-    public ParkingSpot getById(@PathVariable long id) {
+    public ParkingSpot getById(@PathVariable int id) {
         return parkingService.getById(id);
     }
 
@@ -47,6 +43,28 @@ public class ParkingController {
 
         int buildingId = tokenService.getBuildingId(token.getToken().getTokenValue());
         return parkingService.getParkingSpotsFromToFromBuilding(date, endDate, buildingId);
+    }
+
+    @GetMapping("/all")
+    public Map<Integer, Map<Integer, List<ParkingSpot>>> getByMonth(final JwtAuthenticationToken token) {
+        int buildingId = tokenService.getBuildingId(token.getToken().getTokenValue());
+        return parkingService.getAllYearsParkingSpotsFromToFromBuilding(buildingId);
+    }
+
+    @PostMapping
+    public ParkingSpot addParkingSpot(final JwtAuthenticationToken token, @RequestBody CreateParkingSpotDTO dto) {
+        int userId = tokenService.getUserId(token.getToken().getTokenValue());
+        return parkingService.addParkingSpot(dto, userId);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteParkingSpot(final JwtAuthenticationToken token, @PathVariable int id) {
+        parkingService.deleteParkingSpot(id);
+    }
+
+    @PutMapping("/{id}")
+    public void updateParkingSpot(final JwtAuthenticationToken token, @PathVariable int id, @RequestBody CreateParkingSpotDTO dto) {
+        parkingService.updateParkingSpot(dto, id);
     }
 
 }

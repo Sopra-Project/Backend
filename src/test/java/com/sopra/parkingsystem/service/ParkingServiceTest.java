@@ -2,6 +2,7 @@ package com.sopra.parkingsystem.service;
 
 import com.sopra.parkingsystem.ParkingSystemApplication;
 import com.sopra.parkingsystem.model.*;
+import com.sopra.parkingsystem.model.dto.CreateUserDTO;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -40,13 +41,12 @@ class ParkingServiceTest {
         buildingService.save(building);
         this.building = buildingService.getByName(BUILDING_NAME);
 
-        user = User.builder()
+        CreateUserDTO create = CreateUserDTO.builder()
                 .name("Test")
                 .email(EMAIL)
-                .building(this.building)
-                .role(Role.USER)
+                .roleId(Role.USER.getId())
                 .build();
-        userService.save(user);
+        userService.createUser(create, this.building.getId());
 
         user = userService.getUserByEmail(EMAIL);
 
@@ -147,6 +147,29 @@ class ParkingServiceTest {
         List<ParkingSpot> parkingSpots = parkingService.getParkingSpotsFromToFromBuilding(LocalDateTime.now().minusMinutes(30), LocalDateTime.now().plusHours(1), user.getBuilding().getId());
         assertEquals(5, parkingSpots.size());
     }
+
+//    @Test
+//    @Order(6)
+//    void getAllMonthsParkingSpotsFromToFromBuildingShouldHave2Entries() {
+//        ParkingSpot parkingSpot6 = ParkingSpot.builder()
+//                .registrationNumber("TTT128")
+//                .startTime(LocalDateTime.now().plusDays(2))
+//                .endTime(LocalDateTime.now().plusHours(1))
+//                .status(new Status(1, "PARKED"))
+//                .user(user)
+//                .build();
+//        parkingService.save(parkingSpot6);
+//
+//        Map<Integer, List<ParkingSpot>> parkingSpots = parkingService.getAllMonthsParkingSpotsFromToFromBuilding(user.getBuilding().getId());
+//        assertEquals(2, parkingSpots.size());
+//    }
+
+//    @Test
+//    @Order(7)
+//    void todayDateShouldBeAKeyInMap() {
+//        Map<Integer, List<ParkingSpot>> parkingSpots = parkingService.getAllYearsParkingSpotsFromToFromBuilding(user.getBuilding().getId());
+//        assertTrue(parkingSpots.containsKey(LocalDateTime.now().getDayOfMonth()));
+//    }
 
     @AfterAll
     public void tearDown() {

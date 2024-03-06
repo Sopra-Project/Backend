@@ -1,8 +1,10 @@
 package com.sopra.parkingsystem.service;
 
+import com.nimbusds.jose.shaded.gson.JsonObject;
 import com.sopra.parkingsystem.model.User;
 import com.sopra.parkingsystem.model.UserCode;
 import com.sopra.parkingsystem.model.dto.CodeAuthDTO;
+import com.sopra.parkingsystem.utils.EnvironmentComponent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,21 +17,32 @@ public class AuthService {
     private final TokenService tokenService;
     private final MailSenderService mailSenderService;
     private final UserCodeService userCodeService;
+    private final EnvironmentComponent environmentComponent;
 
     @Autowired
     public AuthService(UserService userService, TokenService tokenService,
-                       MailSenderService mailSenderService, UserCodeService userCodeService) {
+                       MailSenderService mailSenderService, UserCodeService userCodeService,
+                       EnvironmentComponent environmentComponent) {
         this.userService = userService;
         this.tokenService = tokenService;
         this.mailSenderService = mailSenderService;
         this.userCodeService = userCodeService;
+        this.environmentComponent = environmentComponent;
     }
 
-    public String login(String email) {
+    public JsonObject login(String email) {
         User user = userService.getUserByEmail(email);
+        if (environmentComponent.isDev()) {
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("token", tokenService.encodeToken(user));
+            return jsonObject;
+        }
+
         if (user != null) {
             mailSenderService.sendEmail(user);
-            return "Code sent to email";
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("message", "Code has been sent to your email");
+            return jsonObject;
         }
         return null;
     }
@@ -49,5 +62,9 @@ public class AuthService {
     public String generateToken(String email) {
         User user = userService.getUserByEmail(email);
         return tokenService.encodeToken(user);
+    }
+
+    public boolean validateToken(String token) {
+        return tokenService.isTokenValid(token);
     }
 }
