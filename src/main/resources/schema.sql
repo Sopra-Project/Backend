@@ -96,6 +96,10 @@ INSERT INTO Users (name, email, roleID, buildingID)
 SELECT 'User', 'user@test.test', (SELECT id FROM Roles WHERE name = 'USER'), 1
 WHERE NOT EXISTS(SELECT 1 FROM Users WHERE email = 'user@test.test');
 
+INSERT INTO Users (name, email, roleID, buildingID)
+SELECT 'Ulrik', 'sartho2000@gmail.com', (SELECT id FROM Roles WHERE name = 'USER'), 1
+WHERE NOT EXISTS(SELECT 1 FROM Users WHERE email = 'sartho2000@gmail.com');
+
 -- Inserting test Inspector if not exists
 INSERT INTO Users (name, email, roleID, buildingID)
 SELECT 'Inspector', 'inspector@test.test', (SELECT id FROM Roles WHERE name = 'INSPECTOR'), 1
