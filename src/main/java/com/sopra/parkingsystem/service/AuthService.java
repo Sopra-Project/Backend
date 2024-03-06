@@ -59,9 +59,11 @@ public class AuthService {
         return !userCode.isExpired();
     }
 
-    public String generateToken(String email) {
+    public JsonObject generateToken(String email) {
         User user = userService.getUserByEmail(email);
-        return tokenService.encodeToken(user);
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("token", tokenService.encodeToken(user));
+        return jsonObject;
     }
 
     public boolean validateToken(String token) {

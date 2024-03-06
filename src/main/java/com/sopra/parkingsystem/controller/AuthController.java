@@ -32,7 +32,8 @@ public class AuthController {
     @PostMapping("/code")
     public ResponseEntity<String> code(@RequestBody CodeAuthDTO dto) {
         if (authService.validateCode(dto)) {
-            return ResponseEntity.ok(authService.generateToken(dto.getEmail()));
+            JsonObject response = authService.generateToken(dto.getEmail());
+            return ResponseEntity.ok(response.toString());
         }
         return ResponseEntity.badRequest().body("Code is invalid");
     }
