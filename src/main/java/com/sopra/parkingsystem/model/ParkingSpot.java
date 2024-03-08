@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 @Entity
 @Data
@@ -30,4 +31,14 @@ public class ParkingSpot {
     @ManyToOne
     @JoinColumn(name = "parkingstatusid")
     private Status status;
+
+    public long calculateMinutesLeft() {
+        if (endTime == null || LocalDateTime.now().isAfter(endTime)) {
+            return 0;
+        } else {
+            long secondsLeft = endTime.atZone(ZoneId.systemDefault()).toEpochSecond() - LocalDateTime.now().atZone(ZoneId.systemDefault()).toEpochSecond();
+            return secondsLeft / 60;
+        }
+    }
+
 }

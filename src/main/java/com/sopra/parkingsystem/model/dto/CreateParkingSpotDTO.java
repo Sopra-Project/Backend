@@ -1,4 +1,4 @@
-package com.sopra.parkingsystem.controller;
+package com.sopra.parkingsystem.model.dto;
 
 import com.sopra.parkingsystem.model.ParkingSpot;
 import com.sopra.parkingsystem.model.Status;

@@ -38,4 +38,7 @@ public interface ParkingRepository extends JpaRepository<ParkingSpot, Integer> {
     @Query("update ParkingSpot p set p.startTime = :startTime, p.endTime = :endTime, p.registrationNumber = :registrationNumber where p.id = :id")
     void update(@Param("startTime") LocalDateTime startTime, @Param("endTime") LocalDateTime endTime,
                 @Param("registrationNumber") String registrationNumber, @Param("id") int id);
+
+    @Query("select p from ParkingSpot p where p.registrationNumber = :registrationNumber")
+    ParkingSpot findByRegistrationNumber(@Param("registrationNumber") String registrationNumber);
 }

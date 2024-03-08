@@ -1,6 +1,6 @@
 package com.sopra.parkingsystem.service;
 
-import com.sopra.parkingsystem.controller.CreateParkingSpotDTO;
+import com.sopra.parkingsystem.model.dto.CreateParkingSpotDTO;
 import com.sopra.parkingsystem.model.ParkingSpot;
 import com.sopra.parkingsystem.repository.ParkingRepository;
 import org.springframework.beans.factory.annotation.Autowired;

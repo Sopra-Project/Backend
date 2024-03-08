@@ -1,6 +1,7 @@
 package com.sopra.parkingsystem.controller;
 
 import com.sopra.parkingsystem.model.ParkingSpot;
+import com.sopra.parkingsystem.model.dto.CreateParkingSpotDTO;
 import com.sopra.parkingsystem.service.ParkingService;
 import com.sopra.parkingsystem.service.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
