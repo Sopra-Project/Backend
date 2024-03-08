@@ -40,6 +40,7 @@ public class SecurityConfig implements WebMvcConfigurer {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers("/api/inspector/**").permitAll()
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/parking/**").hasAnyRole(Role.USER.getAuthority(), Role.ADMIN.getAuthority())
                         .requestMatchers("/api/user/**").hasRole(Role.ADMIN.getAuthority())
