@@ -1,14 +1,14 @@
 package com.sopra.parkingsystem.controller;
 
-import com.nimbusds.jose.shaded.gson.JsonObject;
 import com.sopra.parkingsystem.service.InspectorService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 @RequestMapping("/api/inspector")
 public class InspectorController {
 
@@ -21,7 +21,7 @@ public class InspectorController {
 
 
     @GetMapping("/validate/car/{registration}")
-    public JsonObject inspectCar(@PathVariable String registration) {
-        return inspectorService.isCarRegistered(registration);
+    public ResponseEntity<String> inspectCar(@PathVariable String registration) {
+        return ResponseEntity.ok(inspectorService.isCarRegistered(registration).toString());
     }
 }

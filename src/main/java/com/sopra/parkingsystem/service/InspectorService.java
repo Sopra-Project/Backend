@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class InspectorService {
@@ -20,7 +21,9 @@ public class InspectorService {
 
     public JsonObject isCarRegistered(String registrationNumber) {
         LocalDateTime now = LocalDateTime.now();
-        ParkingSpot parkingSpot = parkingRepository.findByRegistrationNumber(registrationNumber);
+        List<ParkingSpot> parkingSpots = parkingRepository.findByRegistrationNumber(registrationNumber, now);
+        ParkingSpot parkingSpot = parkingSpots.isEmpty() ? null : parkingSpots.get(0);
+
         JsonObject jsonObject = new JsonObject();
 
         if (parkingSpot == null) {
@@ -38,7 +41,7 @@ public class InspectorService {
         long timeLeft = parkingSpot.calculateMinutesLeft();
 
         if (timeLeft > 0) {
-            jsonObject.addProperty("message", "Car is registered for building " + parkingSpot.getUser().getBuilding() + "");
+            jsonObject.addProperty("message", "Car is registered for building " + parkingSpot.getUser().getBuilding().getName() + "");
             jsonObject.addProperty("minutesLeft", timeLeft);
             jsonObject.addProperty("valid", true);
             return jsonObject;
