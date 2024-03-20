@@ -32,6 +32,10 @@ public class UserService {
     }
 
     public User createUser(CreateUserDTO dto, int buildingId) {
+        User existingUser = userRepository.findByEmail(dto.email);
+        if (existingUser != null) {
+            throw new IllegalArgumentException("User with this email already exists");
+        }
         User user = dto.toUser(buildingId);
         return save(user);
     }
