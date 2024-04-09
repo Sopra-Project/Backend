@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.Random;
 
 @Entity
@@ -31,11 +32,11 @@ public class UserCode {
     public UserCode(User user) {
         this.user = user;
         this.code = generateCode();
-        this.expiresAt = LocalDateTime.now().plusMinutes(5);
+        this.expiresAt = LocalDateTime.now(ZoneOffset.UTC).plusMinutes(5);
     }
 
     public boolean isExpired() {
-        return expiresAt.isBefore(LocalDateTime.now());
+        return expiresAt.isBefore(LocalDateTime.now(ZoneOffset.UTC));
     }
 
     private String generateCode() {
