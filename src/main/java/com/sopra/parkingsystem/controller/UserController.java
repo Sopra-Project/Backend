@@ -36,9 +36,10 @@ public class UserController {
         return userService.createUser(dto, buildingId);
     }
 
-    @PutMapping
-    public int updateUser(final JwtAuthenticationToken token, @RequestBody final EditUserDTO dto) {
+    @PutMapping("{id}")
+    public int updateUser(final JwtAuthenticationToken token, @RequestBody final EditUserDTO dto, @PathVariable int id) {
         int buildingId = tokenService.getBuildingId(token.getToken().getTokenValue());
+        dto.setId(id);
         return userService.updateUser(dto, buildingId);
     }
 
