@@ -56,8 +56,7 @@ public class AuthService {
             return false;
         }
         userCodeService.delete(userCode);
-//        return !userCode.isExpired(); todo fix stupid time bug
-        return true;
+        return !userCode.isExpired();
     }
 
     public JsonObject generateToken(String email) {
