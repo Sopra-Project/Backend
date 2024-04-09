@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional
 public class AuthService {
@@ -48,7 +50,11 @@ public class AuthService {
     }
 
     public boolean validateCode(CodeAuthDTO dto) {
-        UserCode userCode = userCodeService.getUserCodeByCode(dto.code);
+        List<UserCode> userCodes = userCodeService.getUserCodeByCode(dto.code);
+        if (userCodes.isEmpty()) {
+            return false;
+        }
+        UserCode userCode = userCodes.get(userCodes.size() - 1);
         if (userCode == null) {
             return false;
         }
@@ -56,8 +62,7 @@ public class AuthService {
             return false;
         }
         userCodeService.delete(userCode);
-//        return !userCode.isExpired(); todo fix stupid time bug
-        return true;
+        return !userCode.isExpired();
     }
 
     public JsonObject generateToken(String email) {

@@ -4,7 +4,9 @@ import com.sopra.parkingsystem.model.UserCode;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface UserCodeRepository extends JpaRepository<UserCode, Integer> {
-    UserCode findByCode(String code);
+    List<UserCode> findByCode(String code);
 }
