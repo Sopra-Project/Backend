@@ -5,6 +5,8 @@ import com.sopra.parkingsystem.repository.UserCodeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserCodeService {
     private final UserCodeRepository userCodeRepository;
@@ -18,7 +20,7 @@ public class UserCodeService {
         userCodeRepository.saveAndFlush(userCode);
     }
 
-    public UserCode getUserCodeByCode(String code) {
+    public List<UserCode> getUserCodeByCode(String code) {
         return userCodeRepository.findByCode(code);
     }
 
