@@ -9,8 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 @Service
 @Transactional
 public class AuthService {
@@ -50,11 +48,7 @@ public class AuthService {
     }
 
     public boolean validateCode(CodeAuthDTO dto) {
-        List<UserCode> userCodes = userCodeService.getUserCodeByCode(dto.code);
-        if (userCodes.isEmpty()) {
-            return false;
-        }
-        UserCode userCode = userCodes.get(userCodes.size() - 1);
+        UserCode userCode = userCodeService.getUserCodeByCode(dto.code);
         if (userCode == null) {
             return false;
         }
