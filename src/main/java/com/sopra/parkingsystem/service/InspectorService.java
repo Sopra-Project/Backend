@@ -3,6 +3,7 @@ package com.sopra.parkingsystem.service;
 import com.nimbusds.jose.shaded.gson.JsonObject;
 import com.sopra.parkingsystem.model.ParkingSpot;
 import com.sopra.parkingsystem.repository.ParkingRepository;
+import com.sopra.parkingsystem.utils.TimeComponent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +21,7 @@ public class InspectorService {
     }
 
     public JsonObject isCarRegistered(String registrationNumber) {
-        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime now = TimeComponent.getCurrentTime();
         List<ParkingSpot> parkingSpots = parkingRepository.findByRegistrationNumber(registrationNumber, now);
         ParkingSpot parkingSpot = parkingSpots.isEmpty() ? null : parkingSpots.get(0);
 

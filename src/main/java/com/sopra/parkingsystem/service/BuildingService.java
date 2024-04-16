@@ -32,5 +32,9 @@ public class BuildingService {
         return buildingRepository.findByName(name);
     }
 
+    public Building getById(int id) {
+        return buildingRepository.findById(id).orElse(null);
+    }
+
 
 }

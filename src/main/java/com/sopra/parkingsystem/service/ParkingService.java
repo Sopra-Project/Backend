@@ -3,6 +3,7 @@ package com.sopra.parkingsystem.service;
 import com.sopra.parkingsystem.model.dto.CreateParkingSpotDTO;
 import com.sopra.parkingsystem.model.ParkingSpot;
 import com.sopra.parkingsystem.repository.ParkingRepository;
+import com.sopra.parkingsystem.utils.TimeComponent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -45,8 +46,8 @@ public class ParkingService {
     }
 
     public Map<Integer, Map<Integer, List<ParkingSpot>>> getAllYearsParkingSpotsFromToFromBuilding(int buildingId) {
-        LocalDateTime from = LocalDateTime.now().withDayOfMonth(1);
-        LocalDateTime to = LocalDateTime.now().with(lastDayOfYear());
+        LocalDateTime from = TimeComponent.getCurrentTime().withDayOfMonth(1);
+        LocalDateTime to = TimeComponent.getCurrentTime().with(lastDayOfYear());
         List<ParkingSpot> parkingSpots = getParkingSpotsFromToFromBuilding(from, to, buildingId);
         return parkingSpots.stream().collect(groupingBy(p -> p.getStartTime().getMonth().getValue(), groupingBy(p -> p.getStartTime().getDayOfMonth())));
     }

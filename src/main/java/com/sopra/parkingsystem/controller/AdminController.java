@@ -14,25 +14,21 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/superadmin")
-public class SuperAdminController {
+@RequestMapping("/api/admin/")
+public class AdminController {
     private final BuildingService buildingService;
     private final UserService userService;
     private final TokenService tokenService;
 
     @Autowired
-    public SuperAdminController(BuildingService buildingService, UserService userService, TokenService tokenService) {
+    public AdminController(BuildingService buildingService, UserService userService, TokenService tokenService) {
         this.buildingService = buildingService;
         this.userService = userService;
         this.tokenService = tokenService;
     }
 
     @PostMapping("/building")
-    public void createBuilding(final JwtAuthenticationToken token, @RequestBody BuildingDTO dto) {
-        final String tokenString = token.getToken().getTokenValue();
-        if (!tokenService.getRole(tokenString).equals(Role.SUPER_ADMIN.getAuthority())) {
-            throw new RuntimeException("You are not authorized to perform this action");
-        }
+    public void createBuilding(@RequestBody BuildingDTO dto) {
         buildingService.save(dto.toBuilding());
     }
 
@@ -41,9 +37,10 @@ public class SuperAdminController {
         return buildingService.getAll();
     }
 
-    @PostMapping("/user")
-    public void createUser(@RequestBody CreateAdminUser dto) {
-
+    @GetMapping("/impersonate/{buildingId}")
+    public String impersonate(final JwtAuthenticationToken token, @PathVariable Integer buildingId) {
+        final String tokenString = token.getToken().getTokenValue();
+        return tokenService.generateTokenForBuilding(buildingId, tokenString);
     }
 
 
