@@ -4,6 +4,7 @@ import com.nimbusds.jose.shaded.gson.JsonObject;
 import com.sopra.parkingsystem.ParkingSystemApplication;
 import com.sopra.parkingsystem.model.*;
 import com.sopra.parkingsystem.model.dto.CreateUserDTO;
+import com.sopra.parkingsystem.utils.TimeComponent;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -53,8 +54,8 @@ class InspectorServiceTest {
 
         ParkingSpot parkingSpot = ParkingSpot.builder()
                 .registrationNumber("TTT123")
-                .startTime(LocalDateTime.now())
-                .endTime(LocalDateTime.now().plusHours(1))
+                .startTime(TimeComponent.getCurrentTime())
+                .endTime(TimeComponent.getCurrentTime().plusHours(1))
                 .status(new Status(1, "PARKED"))
                 .user(user)
                 .build();
@@ -62,8 +63,8 @@ class InspectorServiceTest {
 
         parkingSpot = ParkingSpot.builder()
                 .registrationNumber("TTT124")
-                .startTime(LocalDateTime.now().minusHours(2))
-                .endTime(LocalDateTime.now().minusHours(1))
+                .startTime(TimeComponent.getCurrentTime().minusHours(2))
+                .endTime(TimeComponent.getCurrentTime().minusHours(1))
                 .status(new Status(1, "PARKED"))
                 .user(user)
                 .build();
@@ -71,8 +72,8 @@ class InspectorServiceTest {
 
         parkingSpot = ParkingSpot.builder()
                 .registrationNumber("YYY111")
-                .startTime(LocalDateTime.now().plusHours(2))
-                .endTime(LocalDateTime.now().plusHours(4))
+                .startTime(TimeComponent.getCurrentTime().plusHours(2))
+                .endTime(TimeComponent.getCurrentTime().plusHours(4))
                 .status(new Status(1, "PARKED"))
                 .user(user)
                 .build();

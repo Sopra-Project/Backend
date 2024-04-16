@@ -3,6 +3,7 @@ package com.sopra.parkingsystem.service;
 import com.sopra.parkingsystem.ParkingSystemApplication;
 import com.sopra.parkingsystem.model.*;
 import com.sopra.parkingsystem.model.dto.CreateUserDTO;
+import com.sopra.parkingsystem.utils.TimeComponent;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -52,8 +53,8 @@ class ParkingServiceTest {
 
         ParkingSpot parkingSpot = ParkingSpot.builder()
                 .registrationNumber("TTT123")
-                .startTime(LocalDateTime.now())
-                .endTime(LocalDateTime.now().plusHours(1))
+                .startTime(TimeComponent.getCurrentTime())
+                .endTime(TimeComponent.getCurrentTime().plusHours(1))
                 .status(new Status(1, "PARKED"))
                 .user(user)
                 .build();
@@ -61,8 +62,8 @@ class ParkingServiceTest {
 
         ParkingSpot parkingSpot2 = ParkingSpot.builder()
                 .registrationNumber("TTT124")
-                .startTime(LocalDateTime.now())
-                .endTime(LocalDateTime.now().plusHours(1))
+                .startTime(TimeComponent.getCurrentTime())
+                .endTime(TimeComponent.getCurrentTime().plusHours(1))
                 .status(new Status(1, "PARKED"))
                 .user(user)
                 .build();
@@ -70,8 +71,8 @@ class ParkingServiceTest {
 
         ParkingSpot parkingSpot3 = ParkingSpot.builder()
                 .registrationNumber("TTT125")
-                .startTime(LocalDateTime.now())
-                .endTime(LocalDateTime.now().plusHours(1))
+                .startTime(TimeComponent.getCurrentTime())
+                .endTime(TimeComponent.getCurrentTime().plusHours(1))
                 .status(new Status(1, "PARKED"))
                 .user(user)
                 .build();
@@ -79,8 +80,8 @@ class ParkingServiceTest {
 
         ParkingSpot parkingSpot4 = ParkingSpot.builder()
                 .registrationNumber("TTT126")
-                .startTime(LocalDateTime.now())
-                .endTime(LocalDateTime.now().plusHours(1))
+                .startTime(TimeComponent.getCurrentTime())
+                .endTime(TimeComponent.getCurrentTime().plusHours(1))
                 .status(new Status(1, "PARKED"))
                 .user(user)
                 .build();
@@ -88,8 +89,8 @@ class ParkingServiceTest {
 
         ParkingSpot parkingSpot5 = ParkingSpot.builder()
                 .registrationNumber("TTT127")
-                .startTime(LocalDateTime.now())
-                .endTime(LocalDateTime.now().plusHours(1))
+                .startTime(TimeComponent.getCurrentTime())
+                .endTime(TimeComponent.getCurrentTime().plusHours(1))
                 .status(new Status(1, "PARKED"))
                 .user(user)
                 .build();
@@ -109,8 +110,8 @@ class ParkingServiceTest {
     void tryingToAddTooManyParkingShouldFail() {
         ParkingSpot parkingSpot = ParkingSpot.builder()
                 .registrationNumber("TTT128")
-                .startTime(LocalDateTime.now())
-                .endTime(LocalDateTime.now().plusMinutes(30))
+                .startTime(TimeComponent.getCurrentTime())
+                .endTime(TimeComponent.getCurrentTime().plusMinutes(30))
                 .status(new Status(1, "PARKED"))
                 .user(user)
                 .build();
@@ -124,8 +125,8 @@ class ParkingServiceTest {
     void parkingCarAfterOtherCarLeftShouldWork() {
         ParkingSpot parkingSpot = ParkingSpot.builder()
                 .registrationNumber("TTT128")
-                .startTime(LocalDateTime.now().plusHours(2))
-                .endTime(LocalDateTime.now().plusHours(2).plusMinutes(30))
+                .startTime(TimeComponent.getCurrentTime().plusHours(2))
+                .endTime(TimeComponent.getCurrentTime().plusHours(2).plusMinutes(30))
                 .status(new Status(1, "PARKED"))
                 .user(user)
                 .build();
@@ -137,14 +138,14 @@ class ParkingServiceTest {
     @Test
     @Order(4)
     void findParkingSpotsFromToFromBuildingShouldBe6() {
-        List<ParkingSpot> parkingSpots = parkingService.getParkingSpotsFromToFromBuilding(LocalDateTime.now().minusMinutes(30), LocalDateTime.now().plusHours(3), user.getBuilding().getId());
+        List<ParkingSpot> parkingSpots = parkingService.getParkingSpotsFromToFromBuilding(TimeComponent.getCurrentTime().minusMinutes(30), LocalDateTime.now().plusHours(3), user.getBuilding().getId());
         assertEquals(6, parkingSpots.size());
     }
 
     @Test
     @Order(5)
     void findParkingSpotsBetween1And2ShouldBe5() {
-        List<ParkingSpot> parkingSpots = parkingService.getParkingSpotsFromToFromBuilding(LocalDateTime.now().minusMinutes(30), LocalDateTime.now().plusHours(1), user.getBuilding().getId());
+        List<ParkingSpot> parkingSpots = parkingService.getParkingSpotsFromToFromBuilding(TimeComponent.getCurrentTime().minusMinutes(30), LocalDateTime.now().plusHours(1), user.getBuilding().getId());
         assertEquals(5, parkingSpots.size());
     }
 
