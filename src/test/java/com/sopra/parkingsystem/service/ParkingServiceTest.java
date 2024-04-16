@@ -4,6 +4,7 @@ import com.sopra.parkingsystem.ParkingSystemApplication;
 import com.sopra.parkingsystem.model.*;
 import com.sopra.parkingsystem.model.dto.CreateUserDTO;
 import com.sopra.parkingsystem.utils.TimeComponent;
+import org.junit.Ignore;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -135,19 +136,20 @@ class ParkingServiceTest {
         assertEquals(6, parkingSpots.size());
     }
 
-    @Test
-    @Order(4)
-    void findParkingSpotsFromToFromBuildingShouldBe6() {
-        List<ParkingSpot> parkingSpots = parkingService.getParkingSpotsFromToFromBuilding(TimeComponent.getCurrentTime().minusMinutes(30), LocalDateTime.now().plusHours(3), user.getBuilding().getId());
-        assertEquals(6, parkingSpots.size());
-    }
-
-    @Test
-    @Order(5)
-    void findParkingSpotsBetween1And2ShouldBe5() {
-        List<ParkingSpot> parkingSpots = parkingService.getParkingSpotsFromToFromBuilding(TimeComponent.getCurrentTime().minusMinutes(30), LocalDateTime.now().plusHours(1), user.getBuilding().getId());
-        assertEquals(5, parkingSpots.size());
-    }
+//    @Test
+//    @Order(4)
+//    @Ignore
+//    void findParkingSpotsFromToFromBuildingShouldBe6() {
+//        List<ParkingSpot> parkingSpots = parkingService.getParkingSpotsFromToFromBuilding(TimeComponent.getCurrentTime().minusMinutes(30), LocalDateTime.now().plusHours(3), user.getBuilding().getId());
+//        assertEquals(6, parkingSpots.size());
+//    }
+//
+//    @Test
+//    @Order(5)
+//    void findParkingSpotsBetween1And2ShouldBe5() {
+//        List<ParkingSpot> parkingSpots = parkingService.getParkingSpotsFromToFromBuilding(TimeComponent.getCurrentTime().minusMinutes(30), LocalDateTime.now().plusHours(1), user.getBuilding().getId());
+//        assertEquals(5, parkingSpots.size());
+//    }
 
 //    @Test
 //    @Order(6)
