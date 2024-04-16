@@ -1,5 +1,6 @@
 package com.sopra.parkingsystem.service;
 
+import com.sopra.parkingsystem.model.Building;
 import com.sopra.parkingsystem.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.jwt.*;
@@ -13,11 +14,13 @@ public class TokenService {
 
     private final JwtEncoder jwtEncoder;
     private final JwtDecoder jwtDecoder;
+    private final BuildingService buildingService;
 
     @Autowired
-    public TokenService(JwtEncoder jwtEncoder, JwtDecoder jwtDecoder) {
+    public TokenService(JwtEncoder jwtEncoder, JwtDecoder jwtDecoder, BuildingService buildingService) {
         this.jwtEncoder = jwtEncoder;
         this.jwtDecoder = jwtDecoder;
+        this.buildingService = buildingService;
     }
 
     public String encodeToken(User user) {
@@ -36,6 +39,24 @@ public class TokenService {
                 .build();
         return jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
     }
+
+    public String generateTokenForBuilding(int buildingId, String token) {
+        Instant now = Instant.now();
+        Building building = buildingService.getById(buildingId);
+        JwtClaimsSet claims = JwtClaimsSet.builder()
+                .issuer("self")
+                .subject(getName(token))
+                .claim("id", String.valueOf(getUserId(token)))
+                .claim("role", getRole(token))
+                .claim("name", getName(token))
+                .claim("building", building.getName())
+                .claim("buildingId", String.valueOf(building.getId()))
+                .expiresAt(now.plusSeconds(60 * 60 * 24))
+                .issuedAt(now)
+                .build();
+        return jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
+    }
+
 
     public Jwt decodeToken(String token) {
         return jwtDecoder.decode(token);

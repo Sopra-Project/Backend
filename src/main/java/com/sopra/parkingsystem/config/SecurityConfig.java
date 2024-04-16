@@ -44,7 +44,7 @@ public class SecurityConfig implements WebMvcConfigurer {
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/parking/**").hasAnyRole(Role.USER.getAuthority(), Role.ADMIN.getAuthority())
                         .requestMatchers("/api/user/**").hasRole(Role.ADMIN.getAuthority())
-                        .requestMatchers("/api/superadmin/**").hasRole(Role.SUPER_ADMIN.getAuthority())
+                        .requestMatchers("/api/admin/**").hasRole(Role.ADMIN.getAuthority())
                         .anyRequest().authenticated()
                 )
                 .cors(Customizer.withDefaults())
